@@ -18,14 +18,21 @@ module DbDumper
     }
   }
 
+  database_cmd = ARGV.shift
+
   end_of_itr = ARGV.shift
 
   
   sample_databases.each do |name, config|
     if end_of_itr.nil?
-      backup_file = config[:sample_databases] + _ + Time.now.strftime('%Y%m%d')
+      backup_file = config[:database] + _ + Time.now.strftime('%Y%m%d')
     else
-      backup_file = config[:sample_databases] + _ + end_of_itr
+      backup_file = config[:database] + _ + end_of_itr
     end
+
+    dump_cmd = "#{database_cmd} -u#{config[:username]} -p#{password}" + "#{config[:database]}"
+
+    `#{dump_cmd} > #{backup_file}.sql`
+    `gzip #{backup_file}.sql`
   end
 end
