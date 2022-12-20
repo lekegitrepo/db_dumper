@@ -16,6 +16,9 @@ module DbDumper
     end
 
     opts.on('-u USER') do |user|
+      unless user =~ /^.+\..+$/
+        raise ArgumentError, "User must be in 'first.last' format"
+      end
       options[:user] = user
     end
 
