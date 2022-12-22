@@ -15,10 +15,7 @@ module DbDumper
       options[:iteration] = true
     end
 
-    opts.on('-u USER') do |user|
-      unless user =~ /^.+\..+$/
-        raise ArgumentError, "User must be in 'first.last' format"
-      end
+    opts.on('-u USER', /^.+\..+$/) do |user|
       options[:user] = user
     end
 
@@ -30,22 +27,22 @@ module DbDumper
   option_parser.parse!
   puts options.inspect
 
-  database = ARGV.shift
-  username = ARGV.shift
-  password = ARGV.shift
+  # database = ARGV.shift
+  # username = ARGV.shift
+  # password = ARGV.shift
 
-  database_cmd = ARGV.shift
+  # database_cmd = ARGV.shift
 
-  end_of_itr = ARGV.shift
+  # end_of_itr = ARGV.shift
 
-  backup_file = if end_of_itr.nil?
-                  database + Time.now.strftime('%Y%m%d')
-                else
-                  database + end_of_itr
-                end
+  # backup_file = if end_of_itr.nil?
+  #                 database + Time.now.strftime('%Y%m%d')
+  #               else
+  #                 database + end_of_itr
+  #               end
 
-  dump_cmd = "#{database_cmd} -uusername -p#{password}" + database.to_s
+  # dump_cmd = "#{database_cmd} -uusername -p#{password}" + database.to_s
 
-  `#{dump_cmd} > #{backup_file}.sql`
-  `gzip #{backup_file}.sql`
+  # `#{dump_cmd} > #{backup_file}.sql`
+  # `gzip #{backup_file}.sql`
 end
